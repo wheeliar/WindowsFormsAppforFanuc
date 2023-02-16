@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsAppforFanuc", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{31F2AD2D-A951-4828-AC9A-945975AECB7F}"
 	ProjectSection(SolutionItems) = preProject
-		READ.ME = READ.ME
+		README.MD = README.MD
 	EndProjectSection
 EndProject
 Global
