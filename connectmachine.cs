@@ -3,7 +3,6 @@ using System.Windows.Forms;
 using System.Data;
 using System.Data.SqlClient;
 using IoTClient;
-using HslCommunication.Profinet.OpenProtocol;
 using System.Security.Claims;
 
 
