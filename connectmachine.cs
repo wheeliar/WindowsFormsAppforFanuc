@@ -117,6 +117,7 @@ namespace WindowsFormsAppforFanuc
 
         private void button2_Click_1(object sender, EventArgs e)
         {
+            refreshdata.Enabled = true; //开启数据实时刷新
             //主轴实际转速：
             FanucOpe.ODBACT data = new FanucOpe.ODBACT();
             short ret = FanucOpe.cnc_acts(FanucOpe.Handle, data);
@@ -273,6 +274,22 @@ namespace WindowsFormsAppforFanuc
                 this.subprogno.Text = Currentpg.ToString();
 
             }
+            
+            //Progname
+            FanucOpe.ODBEXEPRG buf = new FanucOpe.ODBEXEPRG();
+            ret = FanucOpe.cnc_exeprgname(FanucOpe.Handle, buf);
+            if (ret == FanucOpe.EW_OK)
+            {
+                //foreach (char i in buf.name)
+                //{
+                //    progname.Text += i + ",";
+                //    continue;
+                //}
+                string ProgName = buf.name[0].ToString();
+                //this.progname.Text = progname.Text.TrimEnd(',');
+                this.progname.Text = ProgName.ToString();
+            }
+
 
             //加工计数
             FanucOpe.ODBM bb = new FanucOpe.ODBM();
@@ -291,7 +308,6 @@ namespace WindowsFormsAppforFanuc
                 this.counttotal.Text = totalparts.ToString();
             }
 
-            //时间
 
             //获取切削时间
             FanucOpe.IODBPSD_1 param6753 = new FanucOpe.IODBPSD_1();
@@ -427,6 +443,12 @@ namespace WindowsFormsAppforFanuc
         private void refreshtime_Tick(object sender, EventArgs e)
         {
             this.showtime.Text = DateTime.Now.ToString();
+            button2.PerformClick();
+        }
+
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }    
 }

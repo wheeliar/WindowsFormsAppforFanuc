@@ -86,7 +86,8 @@ namespace WindowsFormsAppforFanuc
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.txtalarmmsg = new System.Windows.Forms.TextBox();
             this.showtime = new System.Windows.Forms.TextBox();
-            this.refreshtime = new System.Windows.Forms.Timer(this.components);
+            this.refreshdata = new System.Windows.Forms.Timer(this.components);
+            this.progname = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // textBox1
@@ -188,7 +189,6 @@ namespace WindowsFormsAppforFanuc
             // 
             // timer1
             // 
-            this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // button1
@@ -340,7 +340,7 @@ namespace WindowsFormsAppforFanuc
             this.textBox24.Name = "textBox24";
             this.textBox24.Size = new System.Drawing.Size(100, 21);
             this.textBox24.TabIndex = 13;
-            this.textBox24.Text = "X轴坐标";
+            this.textBox24.Text = "X轴相对坐标";
             this.textBox24.TextChanged += new System.EventHandler(this.textBox7_TextChanged);
             // 
             // textBox25
@@ -349,7 +349,7 @@ namespace WindowsFormsAppforFanuc
             this.textBox25.Name = "textBox25";
             this.textBox25.Size = new System.Drawing.Size(100, 21);
             this.textBox25.TabIndex = 13;
-            this.textBox25.Text = "Y轴坐标";
+            this.textBox25.Text = "Y轴相对坐标";
             this.textBox25.TextChanged += new System.EventHandler(this.textBox7_TextChanged);
             // 
             // textBox27
@@ -385,7 +385,7 @@ namespace WindowsFormsAppforFanuc
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 20;
-            this.button2.Text = "采集数据";
+            this.button2.Text = "获取数据";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
@@ -540,10 +540,16 @@ namespace WindowsFormsAppforFanuc
             this.showtime.TabIndex = 23;
             this.showtime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // refreshtime
+            // refreshdata
             // 
-            this.refreshtime.Enabled = true;
-            this.refreshtime.Tick += new System.EventHandler(this.refreshtime_Tick);
+            this.refreshdata.Tick += new System.EventHandler(this.refreshtime_Tick);
+            // 
+            // progname
+            // 
+            this.progname.Location = new System.Drawing.Point(618, 178);
+            this.progname.Name = "progname";
+            this.progname.Size = new System.Drawing.Size(100, 21);
+            this.progname.TabIndex = 24;
             // 
             // connectmachine
             // 
@@ -551,6 +557,7 @@ namespace WindowsFormsAppforFanuc
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.ClientSize = new System.Drawing.Size(914, 583);
+            this.Controls.Add(this.progname);
             this.Controls.Add(this.showtime);
             this.Controls.Add(this.txtalarmmsg);
             this.Controls.Add(this.xpos);
@@ -672,6 +679,7 @@ namespace WindowsFormsAppforFanuc
         private System.Windows.Forms.TextBox textBox26;
         private System.Windows.Forms.TextBox txtalarmmsg;
         private System.Windows.Forms.TextBox showtime;
-        private System.Windows.Forms.Timer refreshtime;
+        private System.Windows.Forms.Timer refreshdata;
+        private System.Windows.Forms.TextBox progname;
     }
 }
