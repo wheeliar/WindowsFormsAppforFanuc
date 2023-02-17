@@ -60,22 +60,20 @@ namespace WindowsFormsAppforFanuc
             if (ret == 0)
             {
                 double x = fos.p1.abs.data * Math.Pow(10, -fos.p1.abs.dec);
-                //MessageBox.Show(x.ToString());
-                //绝对
-                //textBox10.Text = x.ToString(); //x绝对坐标值
                 string namex = textBox7.Text; //x绝对坐标名
                 string recordtime = DateTime.Now.ToString(); //数据的记录时间
+                this.showtime.Text = DateTime.Now.ToString();
                 if (FanucOpe.Handle != 0)
                 {
                     listBox1.Items.Add(x.ToString());
                     //string value1 = textBox10.Text;
 
-                    string insertCommand = "insert into dbo.focas(type, value, time) values('" + namex + "','" + x + "','" + recordtime + "')"; //插入数据库
-                    sqlcon.Open();
-                    Console.WriteLine("open database successfully!!!");
-                    SqlCommand command = new SqlCommand(insertCommand, sqlcon);
-                    command.ExecuteNonQuery();
-                    sqlcon.Close();
+                    //string insertCommand = "insert into dbo.focas(type, value, time) values('" + namex + "','" + x + "','" + recordtime + "')"; //插入数据库
+                    //sqlcon.Open();
+                    //Console.WriteLine("open database successfully!!!");
+                    //SqlCommand command = new SqlCommand(insertCommand, sqlcon);
+                    //command.ExecuteNonQuery();
+                    //sqlcon.Close();
                 }
 
             }
@@ -421,6 +419,14 @@ namespace WindowsFormsAppforFanuc
 
         }
 
+        private void connectmachine_Load(object sender, EventArgs e)
+        {
+            this.showtime.Text = DateTime.Now.ToString();
+        }
 
+        private void refreshtime_Tick(object sender, EventArgs e)
+        {
+            this.showtime.Text = DateTime.Now.ToString();
+        }
     }    
 }

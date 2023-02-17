@@ -85,6 +85,8 @@ namespace WindowsFormsAppforFanuc
             this.xposact = new System.Windows.Forms.TextBox();
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.txtalarmmsg = new System.Windows.Forms.TextBox();
+            this.showtime = new System.Windows.Forms.TextBox();
+            this.refreshtime = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // textBox1
@@ -529,12 +531,27 @@ namespace WindowsFormsAppforFanuc
             this.txtalarmmsg.Size = new System.Drawing.Size(100, 21);
             this.txtalarmmsg.TabIndex = 22;
             // 
+            // showtime
+            // 
+            this.showtime.Font = new System.Drawing.Font("宋体", 10F);
+            this.showtime.Location = new System.Drawing.Point(665, 559);
+            this.showtime.Name = "showtime";
+            this.showtime.Size = new System.Drawing.Size(139, 23);
+            this.showtime.TabIndex = 23;
+            this.showtime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // refreshtime
+            // 
+            this.refreshtime.Enabled = true;
+            this.refreshtime.Tick += new System.EventHandler(this.refreshtime_Tick);
+            // 
             // connectmachine
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.ClientSize = new System.Drawing.Size(914, 583);
+            this.Controls.Add(this.showtime);
             this.Controls.Add(this.txtalarmmsg);
             this.Controls.Add(this.xpos);
             this.Controls.Add(this.ontimetotal);
@@ -590,6 +607,7 @@ namespace WindowsFormsAppforFanuc
             this.Controls.Add(this.textBox1);
             this.Name = "connectmachine";
             this.Text = "FANUC";
+            this.Load += new System.EventHandler(this.connectmachine_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -653,5 +671,7 @@ namespace WindowsFormsAppforFanuc
         private System.Windows.Forms.TextBox xposact;
         private System.Windows.Forms.TextBox textBox26;
         private System.Windows.Forms.TextBox txtalarmmsg;
+        private System.Windows.Forms.TextBox showtime;
+        private System.Windows.Forms.Timer refreshtime;
     }
 }
