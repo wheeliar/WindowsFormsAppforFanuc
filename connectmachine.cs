@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using IoTClient;
 using System.Security.Claims;
+using System.Collections;
 
 
 namespace WindowsFormsAppforFanuc
@@ -280,14 +281,8 @@ namespace WindowsFormsAppforFanuc
             ret = FanucOpe.cnc_exeprgname(FanucOpe.Handle, buf);
             if (ret == FanucOpe.EW_OK)
             {
-                //foreach (char i in buf.name)
-                //{
-                //    progname.Text += i + ",";
-                //    continue;
-                //}
-                string ProgName = buf.name[0].ToString();
-                //this.progname.Text = progname.Text.TrimEnd(',');
-                this.progname.Text = ProgName.ToString();
+                string pgname = new string(buf.name); //字符数组转字符串
+                this.progname.Text = pgname.ToString();
             }
 
 
@@ -438,6 +433,7 @@ namespace WindowsFormsAppforFanuc
         private void connectmachine_Load(object sender, EventArgs e)
         {
             this.showtime.Text = DateTime.Now.ToString();
+            datetimeupdate.Enabled = true;
         }
 
         private void refreshtime_Tick(object sender, EventArgs e)
@@ -449,6 +445,11 @@ namespace WindowsFormsAppforFanuc
         private void Button3_Click(object sender, EventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        private void datetimeupdate_Tick(object sender, EventArgs e)
+        {
+            this.showtime.Text = DateTime.Now.ToString();
         }
     }    
 }

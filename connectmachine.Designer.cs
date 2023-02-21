@@ -88,6 +88,8 @@ namespace WindowsFormsAppforFanuc
             this.showtime = new System.Windows.Forms.TextBox();
             this.refreshdata = new System.Windows.Forms.Timer(this.components);
             this.progname = new System.Windows.Forms.TextBox();
+            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.datetimeupdate = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // textBox1
@@ -96,7 +98,8 @@ namespace WindowsFormsAppforFanuc
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(67, 21);
             this.textBox1.TabIndex = 0;
-            this.textBox1.Text = "机床IP地址:";
+            this.textBox1.Text = "机床IP:";
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox2
             // 
@@ -551,12 +554,25 @@ namespace WindowsFormsAppforFanuc
             this.progname.Size = new System.Drawing.Size(100, 21);
             this.progname.TabIndex = 24;
             // 
+            // textBox10
+            // 
+            this.textBox10.Location = new System.Drawing.Point(512, 178);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.Size = new System.Drawing.Size(100, 21);
+            this.textBox10.TabIndex = 25;
+            this.textBox10.Text = "当前程序名";
+            // 
+            // datetimeupdate
+            // 
+            this.datetimeupdate.Tick += new System.EventHandler(this.datetimeupdate_Tick);
+            // 
             // connectmachine
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.ClientSize = new System.Drawing.Size(914, 583);
+            this.Controls.Add(this.textBox10);
             this.Controls.Add(this.progname);
             this.Controls.Add(this.showtime);
             this.Controls.Add(this.txtalarmmsg);
@@ -613,7 +629,7 @@ namespace WindowsFormsAppforFanuc
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Name = "connectmachine";
-            this.Text = "FANUC";
+            this.Text = "FANUC FOCAS";
             this.Load += new System.EventHandler(this.connectmachine_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -681,5 +697,7 @@ namespace WindowsFormsAppforFanuc
         private System.Windows.Forms.TextBox showtime;
         private System.Windows.Forms.Timer refreshdata;
         private System.Windows.Forms.TextBox progname;
+        private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.Timer datetimeupdate;
     }
 }
