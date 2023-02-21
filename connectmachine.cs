@@ -17,14 +17,14 @@ namespace WindowsFormsAppforFanuc
         }
 
         // SQL Server 连接
-        private SqlConnection sqlcon = new SqlConnection("Server = DESKTOP-0UTSD34\\SQLEXPRESS; User Id = xiehui; Pwd=xiehui;DataBase=test");
+        private SqlConnection sqlcon = new SqlConnection("Server = DESKTOP-0UTSD34\\SQLEXPRESS; User Id = user; Pwd=password;DataBase=test");
 
         private void btconn_Click(object sender, EventArgs e)
         {
             string ip = textBox2.Text;
             string port = textBox4.Text;
             string timeout = textBox9.Text;
-            short ret = FanucOpe.cnc_allclibhndl3(ip, Convert.ToUInt16(port), Convert.ToInt32(timeout), out FanucOpe.Handle); //连接设备
+            short ret = FanucOpe.cnc_allclibhndl3(ip, Convert.ToUInt16(port), Convert.ToInt32(timeout), out FanucOpe.h); //连接设备
 
             //sqlcon.Open(); //打开SQL server数据库
 
@@ -36,13 +36,13 @@ namespace WindowsFormsAppforFanuc
             else if (ret == FanucOpe.EW_OK)
             {
                 MessageBox.Show("设备连接成功！", "连接提示");
-                textBox5.Text = FanucOpe.Handle.ToString();
+                textBox5.Text = FanucOpe.h.ToString();
             }
         }
 
         private void cancelbut_Click(object sender, EventArgs e)
         {
-            short ret = FanucOpe.cnc_freelibhndl(FanucOpe.Handle);
+            short ret = FanucOpe.cnc_freelibhndl(FanucOpe.h);
             MessageBox.Show("设备断开成功", "断开提示");
             textBox5.Text = "0";
         }
@@ -57,18 +57,18 @@ namespace WindowsFormsAppforFanuc
             FanucOpe.ODBPOS fos = new FanucOpe.ODBPOS();
             short num = FanucOpe.MAX_AXIS;
             short type = -1;
-            short ret = FanucOpe.cnc_rdposition(FanucOpe.Handle, type, ref num, fos);
+            short ret = FanucOpe.cnc_rdposition(FanucOpe.h, type, ref num, fos);
             if (ret == 0)
             {
                 double x = fos.p1.abs.data * Math.Pow(10, -fos.p1.abs.dec);
                 string namex = textBox7.Text; //x绝对坐标名
                 string recordtime = DateTime.Now.ToString(); //数据的记录时间
                 this.showtime.Text = DateTime.Now.ToString();
-                if (FanucOpe.Handle != 0)
+                if (FanucOpe.h != 0)
                 {
                     listBox1.Items.Add(x.ToString());
                     //string value1 = textBox10.Text;
-
+                    //数据插入数据库
                     //string insertCommand = "insert into dbo.focas(type, value, time) values('" + namex + "','" + x + "','" + recordtime + "')"; //插入数据库
                     //sqlcon.Open();
                     //Console.WriteLine("open database successfully!!!");
@@ -121,7 +121,7 @@ namespace WindowsFormsAppforFanuc
             refreshdata.Enabled = true; //开启数据实时刷新
             //主轴实际转速：
             FanucOpe.ODBACT data = new FanucOpe.ODBACT();
-            short ret = FanucOpe.cnc_acts(FanucOpe.Handle, data);
+            short ret = FanucOpe.cnc_acts(FanucOpe.h, data);
             if (ret == FanucOpe.EW_OK)
             {
                 string Speed = data.data.ToString();
@@ -130,7 +130,7 @@ namespace WindowsFormsAppforFanuc
 
             //切削实际速度 F
             FanucOpe.ODBACT data1 = new FanucOpe.ODBACT();
-            ret = FanucOpe.cnc_actf(FanucOpe.Handle, data);
+            ret = FanucOpe.cnc_actf(FanucOpe.h, data);
             if (ret == FanucOpe.EW_OK)
             {
                 string OverRide = data1.data.ToString();
@@ -139,7 +139,7 @@ namespace WindowsFormsAppforFanuc
 
             // CNC类型
             FanucOpe.ODBSYS k1 = new FanucOpe.ODBSYS();
-            ret = FanucOpe.cnc_sysinfo(FanucOpe.Handle, k1);
+            ret = FanucOpe.cnc_sysinfo(FanucOpe.h, k1);
             if (ret == FanucOpe.EW_OK)
             {
                 string MaxAxis = k1.max_axis.ToString();//最大轴数 
@@ -201,7 +201,7 @@ namespace WindowsFormsAppforFanuc
 
             //CNC工作模式
             FanucOpe.ODBST statinfo = new FanucOpe.ODBST();
-            ret = FanucOpe.cnc_statinfo(FanucOpe.Handle, statinfo);
+            ret = FanucOpe.cnc_statinfo(FanucOpe.h, statinfo);
             if (ret == FanucOpe.EW_OK)
             {
                 //设备状态的判定方法：如果Alarm不为0则有报警。当没有报警时，如果run=3认为是在运行，其他都为待机
@@ -228,7 +228,7 @@ namespace WindowsFormsAppforFanuc
                         CNCModel = "EDIT";
                         break;
                     case 4:
-                        CNCModel = "HaNDle";
+                        CNCModel = "h";
                         break;
                     case 5:
                         CNCModel = "JOG";
@@ -237,7 +237,7 @@ namespace WindowsFormsAppforFanuc
                         CNCModel = "Teach in JOG";
                         break;
                     case 7:
-                        CNCModel = "Teach in HaNDle";
+                        CNCModel = "Teach in h";
                         break;
                     case 8:
                         CNCModel = "INC·feed";
@@ -258,7 +258,7 @@ namespace WindowsFormsAppforFanuc
 
             //进给倍率
             FanucOpe.IODBPMC0 ig = new FanucOpe.IODBPMC0();
-            ret = FanucOpe.pmc_rdpmcrng(FanucOpe.Handle, 0, 1, 12, 13, 8 + 1 * 2, ig);
+            ret = FanucOpe.pmc_rdpmcrng(FanucOpe.h, 0, 1, 12, 13, 8 + 1 * 2, ig);
             if (ret == FanucOpe.EW_OK)
             {
                 string FeedOverRide = (100 - (ig.cdata[0] - 155)).ToString();//进给倍率,转换成百分比为什么是155没搞懂，设备不同也可能不是155
@@ -267,7 +267,7 @@ namespace WindowsFormsAppforFanuc
 
             //程序相关
             FanucOpe.ODBPRO dbpro = new FanucOpe.ODBPRO();
-            if (FanucOpe.EW_OK == FanucOpe.cnc_rdprgnum(FanucOpe.Handle, dbpro))
+            if (FanucOpe.EW_OK == FanucOpe.cnc_rdprgnum(FanucOpe.h, dbpro))
             {
                 short Mainpg = dbpro.mdata;//主程序号
                 this.mainprogno.Text = Mainpg.ToString();
@@ -278,17 +278,27 @@ namespace WindowsFormsAppforFanuc
             
             //Progname
             FanucOpe.ODBEXEPRG buf = new FanucOpe.ODBEXEPRG();
-            ret = FanucOpe.cnc_exeprgname(FanucOpe.Handle, buf);
+            ret = FanucOpe.cnc_exeprgname(FanucOpe.h, buf);
             if (ret == FanucOpe.EW_OK)
             {
                 string pgname = new string(buf.name); //字符数组转字符串
                 this.progname.Text = pgname.ToString();
             }
+            
+            //刀具寿命
+            //读取最大刀具组数
+            FanucOpe.ODBLFNO maxlfg = new FanucOpe.ODBLFNO();
+            ret = FanucOpe.cnc_rdmaxgrp(FanucOpe.h, maxlfg);
+            if (ret == FanucOpe.EW_OK) //ret = 6, 提示无CNC选项
+            {
+                short maxgrp = maxlfg.data;
+                this.txtmaxgrp.Text = maxgrp.ToString();
+            }
 
 
             //加工计数
             FanucOpe.ODBM bb = new FanucOpe.ODBM();
-            ret = FanucOpe.cnc_rdmacro(FanucOpe.Handle, 0xf3d, 0x0a, bb);
+            ret = FanucOpe.cnc_rdmacro(FanucOpe.h, 0xf3d, 0x0a, bb);
             if (ret == FanucOpe.EW_OK)
             {
                 string PartCnt = (bb.mcr_val / 100000).ToString();
@@ -296,7 +306,7 @@ namespace WindowsFormsAppforFanuc
             }
 
             FanucOpe.IODBPSD_1 param6712 = new FanucOpe.IODBPSD_1();
-            ret = FanucOpe.cnc_rdparam(FanucOpe.Handle, 6712, 0, 8, param6712);
+            ret = FanucOpe.cnc_rdparam(FanucOpe.h, 6712, 0, 8, param6712);
             if (ret == FanucOpe.EW_OK)
             {
                 int totalparts = param6712.ldata;
@@ -307,11 +317,11 @@ namespace WindowsFormsAppforFanuc
             //获取切削时间
             FanucOpe.IODBPSD_1 param6753 = new FanucOpe.IODBPSD_1();
             FanucOpe.IODBPSD_1 param6754 = new FanucOpe.IODBPSD_1();
-            ret = FanucOpe.cnc_rdparam(FanucOpe.Handle, 6753, 0, 8 + 32, param6753);
+            ret = FanucOpe.cnc_rdparam(FanucOpe.h, 6753, 0, 8 + 32, param6753);
             if (ret == FanucOpe.EW_OK)
             {
                 int cuttingTimeSec = param6753.ldata / 1000;
-                ret = FanucOpe.cnc_rdparam(FanucOpe.Handle, 6754, 0, 8 + 32, param6754);
+                ret = FanucOpe.cnc_rdparam(FanucOpe.h, 6754, 0, 8 + 32, param6754);
                 if (ret == FanucOpe.EW_OK)
                 {
                     int cuttingTimeMin = param6754.ldata;
@@ -322,11 +332,11 @@ namespace WindowsFormsAppforFanuc
             //获取运行时间
             FanucOpe.IODBPSD_1 param6751 = new FanucOpe.IODBPSD_1();
             FanucOpe.IODBPSD_1 param6752 = new FanucOpe.IODBPSD_1();
-            ret = FanucOpe.cnc_rdparam(FanucOpe.Handle, 6751, 0, 8, param6751);
+            ret = FanucOpe.cnc_rdparam(FanucOpe.h, 6751, 0, 8, param6751);
             if (ret == FanucOpe.EW_OK)
             {
                 int workingTimeSec = param6751.ldata / 1000;
-                ret = FanucOpe.cnc_rdparam(FanucOpe.Handle, 6752, 0, 8, param6752);
+                ret = FanucOpe.cnc_rdparam(FanucOpe.h, 6752, 0, 8, param6752);
                 if (ret == FanucOpe.EW_OK)
                 {
                     int workingTimeMin = param6752.ldata;
@@ -336,7 +346,7 @@ namespace WindowsFormsAppforFanuc
             }
             //获取开机时间
             FanucOpe.IODBPSD_1 param6750 = new FanucOpe.IODBPSD_1();
-            ret = FanucOpe.cnc_rdparam(FanucOpe.Handle, 6750, 0, 8 + 32, param6750);
+            ret = FanucOpe.cnc_rdparam(FanucOpe.h, 6750, 0, 8 + 32, param6750);
             if (ret == FanucOpe.EW_OK)
             {
                 int PoweOnTime = param6750.ldata * 60;
@@ -347,7 +357,7 @@ namespace WindowsFormsAppforFanuc
             FanucOpe.ODBPOS fos = new FanucOpe.ODBPOS();
             short num = FanucOpe.MAX_AXIS;
             short type = -1;
-            ret = FanucOpe.cnc_rdposition(FanucOpe.Handle, type, ref num, fos);
+            ret = FanucOpe.cnc_rdposition(FanucOpe.h, type, ref num, fos);
             if (ret == 0)
             {
                 //绝对
@@ -361,7 +371,7 @@ namespace WindowsFormsAppforFanuc
             //报警信息
 
             //报警数据
-            ret = FanucOpe.cnc_alarm2(FanucOpe.Handle, out int almdsta);//FanucOpe.cnc_alarm2(FanucOpe.Handle out almdsta);
+            ret = FanucOpe.cnc_alarm2(FanucOpe.h, out int almdsta);//FanucOpe.cnc_alarm2(FanucOpe.h out almdsta);
             if (ret == FanucOpe.EW_OK)
             {
                 //报警判断

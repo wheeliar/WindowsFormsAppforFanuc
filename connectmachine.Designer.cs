@@ -90,6 +90,8 @@ namespace WindowsFormsAppforFanuc
             this.progname = new System.Windows.Forms.TextBox();
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.datetimeupdate = new System.Windows.Forms.Timer(this.components);
+            this.textBox30 = new System.Windows.Forms.TextBox();
+            this.txtmaxgrp = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // textBox1
@@ -566,12 +568,29 @@ namespace WindowsFormsAppforFanuc
             // 
             this.datetimeupdate.Tick += new System.EventHandler(this.datetimeupdate_Tick);
             // 
+            // textBox30
+            // 
+            this.textBox30.Location = new System.Drawing.Point(270, 390);
+            this.textBox30.Name = "textBox30";
+            this.textBox30.Size = new System.Drawing.Size(100, 21);
+            this.textBox30.TabIndex = 26;
+            this.textBox30.Text = "最大刀具组号";
+            // 
+            // txtmaxgrp
+            // 
+            this.txtmaxgrp.Location = new System.Drawing.Point(392, 390);
+            this.txtmaxgrp.Name = "txtmaxgrp";
+            this.txtmaxgrp.Size = new System.Drawing.Size(100, 21);
+            this.txtmaxgrp.TabIndex = 27;
+            // 
             // connectmachine
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.ClientSize = new System.Drawing.Size(914, 583);
+            this.Controls.Add(this.txtmaxgrp);
+            this.Controls.Add(this.textBox30);
             this.Controls.Add(this.textBox10);
             this.Controls.Add(this.progname);
             this.Controls.Add(this.showtime);
@@ -699,5 +718,7 @@ namespace WindowsFormsAppforFanuc
         private System.Windows.Forms.TextBox progname;
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.Timer datetimeupdate;
+        private System.Windows.Forms.TextBox textBox30;
+        private System.Windows.Forms.TextBox txtmaxgrp;
     }
 }

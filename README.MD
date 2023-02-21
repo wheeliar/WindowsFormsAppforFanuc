@@ -1,2 +1,6 @@
-## FANUC FOCASÍ¨Ñ¶Ğ­Òé£¬²É¼¯»ú´²µÄÊı¾İ¡£
+## FANUC FOCASé€šè®¯åè®®ï¼Œé‡‡é›†æœºåºŠçš„æ•°æ®ã€‚
+
+### demoç•Œé¢
+
+![image](https://user-images.githubusercontent.com/30236449/219571614-4dac4797-ecde-4c8c-a74a-621be93bf44b.png)
 
